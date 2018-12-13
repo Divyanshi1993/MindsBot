@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 public class ChatApplication extends Application {
 
     private Socket mSocket;
+    private String extravar;
 
     {
         try {
