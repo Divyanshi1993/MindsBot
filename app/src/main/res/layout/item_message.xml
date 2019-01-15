@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="false"
-            android:textSize="22dp"
+            android:textSize="@dimen/_20sp"
             android:textStyle="bold"/>
     <TextView
             android:id="@+id/message"
@@ -21,9 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="50dp"
-            android:textSize="22dp"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_50dp"
+            android:textSize="@dimen/_20sp"
             android:background="@drawable/my_message"
             android:singleLine="true"/>
 

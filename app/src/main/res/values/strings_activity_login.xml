@@ -3,8 +3,13 @@
     <string name="title_activity_login">Join</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_username">What\'s your nickname?</string>
-    <string name="action_sign_in">Join</string>
+    <string name="prompt_username">User Name</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_sign_up">
+        <u>Sign Up</u>
+    </string>
     <string name="action_sign_in_short">Join</string>
 
     <string name="error_field_required">This field is required</string>
