@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.referminds.app.chat.Activity.LoginActivity;
 import com.referminds.app.chat.Activity.MainActivity;
 
+import java.security.PublicKey;
 import java.util.HashMap;
 
 public class SessionManager {
@@ -34,6 +35,9 @@ public class SessionManager {
     public static final String KEY_SocketId = "SocketId";
 
     // Constructor
+    public SessionManager(){
+
+    }
     public SessionManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);

@@ -18,9 +18,9 @@ import com.referminds.app.chat.Activity.MainActivity;
 import com.referminds.app.chat.Adapter.MessageAdapter;
 import com.referminds.app.chat.Model.Message;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Util.CommonSessionCallbck;
-import com.referminds.app.chat.Util.CommonSocketManager;
-import com.referminds.app.chat.Util.Utility;
+import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Utils.CommonSocketManager;
+import com.referminds.app.chat.Utils.Utility;
 import io.socket.client.Socket;
 
 import java.util.ArrayList;
@@ -89,20 +89,7 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
         return inflater.inflate(R.layout.chatfrg, container, false);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-/*
-        mSocket.disconnect();
 
-        mSocket.off(Socket.EVENT_CONNECT, onConnect);
-        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
-        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-         mSocket.off("new message", onNewMessage);
-        mSocket.off("typing", onTyping);
-        mSocket.off("stop typing", onStopTyping);*/
-    }
 
     @Override
     public void onResume() {

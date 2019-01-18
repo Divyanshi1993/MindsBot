@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.referminds.app.chat.Model.SessionManager;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Util.CommonSessionCallbck;
-import com.referminds.app.chat.Util.Utility;
+import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Utils.Utility;
 
 
 /**

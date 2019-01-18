@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Util;
+package com.referminds.app.chat.Utils;
 
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;

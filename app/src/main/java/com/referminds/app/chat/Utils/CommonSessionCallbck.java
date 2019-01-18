@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Util;
+package com.referminds.app.chat.Utils;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -110,5 +110,28 @@ public class CommonSessionCallbck {
                 utility.showSnackbar(activity, activity.getString(R.string.server_failure));
             }
         });
+    }
+    public void signoutUninstalled(String username) {
+        RestController.UserService mAPIService = ChatApplication.getClient(Constants.CHAT_SERVER_URL).create(RestController.UserService.class);
+        mAPIService.signout(username).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.code() == 404 || response.body() == null) {
+                    Log.e("logout", "Logout Failed");
+                } else {
+                    Log.e("logout", response.body().toString());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("retrofitEeption", t.toString());
+                if (t instanceof ConnectException || t instanceof SocketTimeoutException) {
+                    Log.e("logout", "Logout Failed");
+                }
+            }
+        });
+
     }
 }

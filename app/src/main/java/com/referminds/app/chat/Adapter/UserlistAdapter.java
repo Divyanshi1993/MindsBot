@@ -14,7 +14,7 @@ import com.referminds.app.chat.Activity.MainActivity;
 import com.referminds.app.chat.Fragment.ChatrRoomFragment;
 import com.referminds.app.chat.Model.User;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Util.Utility;
+import com.referminds.app.chat.Utils.Utility;
 
 import java.util.List;
 

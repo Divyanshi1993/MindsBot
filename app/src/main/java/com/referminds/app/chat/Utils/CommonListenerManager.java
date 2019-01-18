@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Util;
+package com.referminds.app.chat.Utils;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -56,19 +56,22 @@ public class CommonListenerManager {
         userlist.clear();
         try {
             if (response[1].toString() != null && response[0].toString() != null) {
-                String prefSocketId = ((MainActivity) mContext).getSession().getSoketId();
+                // String prefSocketId = ((MainActivity) mContext).getSession().getSoketId();
+                String prefSocketId = null;
                 String prefUserName = ((MainActivity) mContext).getSession().getUsername();
-                String mSocketId = prefSocketId == null ? response[1].toString() : prefSocketId;
+                //String mSocketId = prefSocketId == null ? response[1].toString() : prefSocketId;
                 String usersJSON = response[0].toString();
                 Gson gson = new Gson();
                 User users[] = gson.fromJson(usersJSON, User[].class);
                 for (User user : users) {
-                    if (!user.getSoketId().equals(mSocketId)) {
+                    if (!user.getName().equals(prefUserName)) {
                         userlist.add(user);
+                    } else {
+                        prefSocketId = user.getSoketId();
                     }
                 }
-                ((MainActivity) mContext).createSession(prefUserName, mSocketId);
-                Log.e(mContext.getString(R.string.socket_id), mSocketId);
+                ((MainActivity) mContext).createSession(prefUserName, prefSocketId);
+                Log.e(mContext.getString(R.string.socket_id), prefSocketId);
             }
 
 

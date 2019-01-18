@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Util;
+package com.referminds.app.chat.Utils;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -19,46 +19,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommonSocketManager {
-    private AppCompatActivity mContext;
-    private CommonListenerManager commonListenerManager;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView mMessagesView;
-    private List<Message> mMessages;
-    private ArrayList<User> userlist;
-    private Utility utility;
-    private Boolean isConnected = true;
-    private Boolean mTyping = true;
     SessionManager sessionManager;
     CommonSessionCallbck commonSessionCallbck;
-
-    public CommonSocketManager() {
-
-    }
-
-    public CommonSocketManager(AppCompatActivity activity, ArrayList<User> userlist) {
-        this();
-        mContext = activity;
-        this.userlist = userlist;
-        commonListenerManager = new CommonListenerManager();
-        sessionManager = ((MainActivity) mContext).getSession();
-        utility = new Utility();
-        commonSessionCallbck = new CommonSessionCallbck();
-
-    }
-
-    public CommonSocketManager(AppCompatActivity activity, List<Message> mMessages, RecyclerView.Adapter mAdapter, RecyclerView mMessagesView, ArrayList<User> userlist) {
-        this();
-        mContext = activity;
-        this.mAdapter = mAdapter;
-        this.mMessages = mMessages;
-        this.mMessagesView = mMessagesView;
-        this.userlist = userlist;
-        commonListenerManager = new CommonListenerManager(mContext, mMessages, mAdapter, mMessagesView);
-        utility = new Utility();
-        sessionManager = ((MainActivity) mContext).getSession();
-        commonSessionCallbck = new CommonSessionCallbck();
-    }
-
+    private AppCompatActivity mContext;
+    public Emitter.Listener onStopTyping = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String username;
+                    username = args[0].toString();
+                    //CommonListenerManager.removeTyping(username,mMessages);
+                }
+            });
+        }
+    };
+    private CommonListenerManager commonListenerManager;
     public Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
@@ -82,18 +59,26 @@ public class CommonSocketManager {
                 });
         }
     };
-    public Emitter.Listener onUpdateuUerlist = new Emitter.Listener() {
+    public Emitter.Listener onNewMessageArriveRoom = new Emitter.Listener() {
         @Override
         public void call(final Object... response) {
             if (mContext != null)
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        commonListenerManager.UpdateUserlist(userlist, mContext, response);
+                        ServerMessage userMessage = new Gson().fromJson(response[0].toString(), ServerMessage.class);
+                        String from_message = userMessage.getMessage();
+                        String fromSocketid = userMessage.getFromId();
+                        String username = "";
+
+                        commonListenerManager.addMessage("", userMessage.getMessage(), false);
+                        //removeTyping(username);
                     }
                 });
         }
     };
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView mMessagesView;
     public Emitter.Listener onTyping = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
@@ -109,24 +94,21 @@ public class CommonSocketManager {
                 });
         }
     };
-
-    public Emitter.Listener onConnect = new Emitter.Listener() {
+    private List<Message> mMessages;
+    private ArrayList<User> userlist;
+    public Emitter.Listener onUpdateuUerlist = new Emitter.Listener() {
         @Override
-        public void call(Object... args) {
-            if (mContext != null) {
+        public void call(final Object... response) {
+            if (mContext != null)
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!isConnected) {
-                            if (null != sessionManager.getUsername())
-                                utility.showSnackbar(mContext, mContext.getString(R.string.connect));
-                            isConnected = true;
-                        }
+                        commonListenerManager.UpdateUserlist(userlist, mContext, response);
                     }
                 });
-            }
         }
     };
+    private Utility utility;
     public Emitter.Listener onDisconnect = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -155,37 +137,50 @@ public class CommonSocketManager {
                 });
         }
     };
-    public Emitter.Listener onStopTyping = new Emitter.Listener() {
+    private Boolean isConnected = true;
+    public Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
-        public void call(final Object... args) {
-            mContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String username;
-                    username = args[0].toString();
-                    //CommonListenerManager.removeTyping(username,mMessages);
-                }
-            });
-        }
-    };
-    public Emitter.Listener onNewMessageArriveRoom = new Emitter.Listener() {
-        @Override
-        public void call(final Object... response) {
-            if (mContext != null)
+        public void call(Object... args) {
+            if (mContext != null) {
                 mContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ServerMessage userMessage = new Gson().fromJson(response[0].toString(), ServerMessage.class);
-                        String from_message = userMessage.getMessage();
-                        String fromSocketid = userMessage.getFromId();
-                        String username = "";
-
-                        commonListenerManager.addMessage("", userMessage.getMessage(), false);
-                        //removeTyping(username);
+                        if (!isConnected) {
+                            if (null != sessionManager.getUsername())
+                                utility.showSnackbar(mContext, mContext.getString(R.string.connect));
+                            isConnected = true;
+                        }
                     }
                 });
+            }
         }
     };
+    private Boolean mTyping = true;
+    public CommonSocketManager() {
+
+    }
+    public CommonSocketManager(AppCompatActivity activity, ArrayList<User> userlist) {
+        this();
+        mContext = activity;
+        this.userlist = userlist;
+        commonListenerManager = new CommonListenerManager();
+        sessionManager = ((MainActivity) mContext).getSession();
+        utility = new Utility();
+        commonSessionCallbck = new CommonSessionCallbck();
+
+    }
+    public CommonSocketManager(AppCompatActivity activity, List<Message> mMessages, RecyclerView.Adapter mAdapter, RecyclerView mMessagesView, ArrayList<User> userlist) {
+        this();
+        mContext = activity;
+        this.mAdapter = mAdapter;
+        this.mMessages = mMessages;
+        this.mMessagesView = mMessagesView;
+        this.userlist = userlist;
+        commonListenerManager = new CommonListenerManager(mContext, mMessages, mAdapter, mMessagesView);
+        utility = new Utility();
+        sessionManager = ((MainActivity) mContext).getSession();
+        commonSessionCallbck = new CommonSessionCallbck();
+    }
 
     public void attemptSend(Socket mSocket, EditText mInputMessageView, FragmentActivity activity) {
         String message = mInputMessageView.getText().toString().trim();
@@ -194,7 +189,7 @@ public class CommonSocketManager {
             return;
         }
         mInputMessageView.setText("");
-
+commonListenerManager.addMessage(sessionManager.getUsername(),message,true);
         // perform the sending message attempt.
         mSocket.emit(mContext.getString(R.string.client_message), message, sessionManager.getSoketId());
         mTyping = false;

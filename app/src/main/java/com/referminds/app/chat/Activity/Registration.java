@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.referminds.app.chat.Model.User;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Util.CommonSessionCallbck;
-import com.referminds.app.chat.Util.Utility;
+import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Utils.Utility;
 
 public class Registration extends AppCompatActivity {
     Button signUpButton;

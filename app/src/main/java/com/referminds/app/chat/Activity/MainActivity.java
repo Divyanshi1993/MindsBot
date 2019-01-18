@@ -11,9 +11,8 @@ import com.referminds.app.chat.Model.SessionManager;
 import com.referminds.app.chat.Model.User;
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.Singelton.ChatApplication;
-import com.referminds.app.chat.Util.CommonSocketManager;
+import com.referminds.app.chat.Utils.CommonSocketManager;
 import io.socket.client.Socket;
-
 import java.util.ArrayList;
 
 
@@ -22,11 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private Socket mSocket;
     private SessionManager session;
     private String userName;
+    private ChatApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+     //   app.getAppComponent().inject(this);
 
         session = new SessionManager(this);
         //check user logged in or not?
@@ -47,16 +48,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+/*
+        mSocket.disconnect();
+
+        mSocket.off(Socket.EVENT_CONNECT, onConnect);
+        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
+        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+         mSocket.off("new message", onNewMessage);
+        mSocket.off("typing", onTyping);
+        mSocket.off("stop typing", onStopTyping);*/
+    }
 
     private void splashScreen() {
         Intent splashIntent = new Intent(this, SplashScreen.class);
         startActivity(splashIntent);
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.e("activity_state", "activity destroyed");
-        super.onDestroy();
+        createFragment(new ChatBoatFragment(), getString(R.string.chatbot));
     }
 
     public SessionManager getSession() {
@@ -65,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSocket() {
         CommonSocketManager commonSocketManager = new CommonSocketManager(this, userlist);
-        ChatApplication app = (ChatApplication) getApplication();
+        app = (ChatApplication) getApplication();
         mSocket = app.getSocket();
         mSocket.on(Socket.EVENT_CONNECT, commonSocketManager.onConnect);
         mSocket.on(Socket.EVENT_DISCONNECT, commonSocketManager.onDisconnect);
@@ -80,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void createSession(String name, String socketid) {
         session.createLoginSession(name, socketid);
-        createFragment(new ChatBoatFragment(), getString(R.string.chatbot));
         Log.e("fragment", "fragment creaated");
     }
 

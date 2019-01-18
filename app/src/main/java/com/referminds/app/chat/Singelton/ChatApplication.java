@@ -1,7 +1,7 @@
 package com.referminds.app.chat.Singelton;
 
 import android.app.Application;
-import com.referminds.app.chat.Util.Constants;
+import com.referminds.app.chat.Utils.Constants;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import retrofit2.Retrofit;

@@ -16,9 +16,9 @@ import com.referminds.app.chat.Activity.MainActivity;
 import com.referminds.app.chat.Adapter.MessageAdapter;
 import com.referminds.app.chat.Model.Message;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Util.CommonSessionCallbck;
-import com.referminds.app.chat.Util.CommonSocketManager;
-import com.referminds.app.chat.Util.Utility;
+import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Utils.CommonSocketManager;
+import com.referminds.app.chat.Utils.Utility;
 import io.socket.client.Socket;
 
 import java.util.ArrayList;
@@ -69,7 +69,6 @@ public class ChatrRoomFragment extends Fragment {
         user_name = argsString.split(",")[1];
 
         setHasOptionsMenu(true);
-        initializeSocket();
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(user_name);
     }
@@ -83,7 +82,7 @@ public class ChatrRoomFragment extends Fragment {
 
       /*
         mSocket.on("stop typing", onStopTyping);*/
-        mSocket.connect();
+       // mSocket.connect();
     }
 
     @Override
