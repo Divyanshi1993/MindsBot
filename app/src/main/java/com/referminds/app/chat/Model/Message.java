@@ -1,10 +1,10 @@
-package com.referminds.app.chat;
+package com.referminds.app.chat.Model;
 
 public class Message {
-
     public static final int TYPE_MESSAGE = 0;
     public static final int TYPE_LOG = 1;
     public static final int TYPE_ACTION = 2;
+    public static final int TYPE_OTHER_MESSGE = 3;
 
     private int mType;
     private String mMessage;

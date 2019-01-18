@@ -1,4 +1,4 @@
-package com.referminds.app.chat;
+package com.referminds.app.chat.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.referminds.app.chat.Model.Message;
+import com.referminds.app.chat.R;
 
 import java.util.List;
 
@@ -25,13 +27,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         int layout = -1;
         switch (viewType) {
             case Message.TYPE_MESSAGE:
-                layout = R.layout.item_message;
+                layout = R.layout.my_message;
                 break;
             case Message.TYPE_LOG:
                 layout = R.layout.item_log;
                 break;
             case Message.TYPE_ACTION:
                 layout = R.layout.item_action;
+                break;
+            case Message.TYPE_OTHER_MESSGE:
+                layout = R.layout.other_message;
                 break;
         }
         View v = LayoutInflater

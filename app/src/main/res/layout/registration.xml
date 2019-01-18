@@ -10,22 +10,25 @@
 
     <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_signin"
+            android:src="@drawable/ic_signup"
             android:layout_height="wrap_content"/>
 
     <EditText
             android:id="@+id/username_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10dp"
-            android:padding="@dimen/_15dp"
+            android:layout_marginLeft="@dimen/_10dp"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:maxLines="1"
+            android:padding="@dimen/_15dp"
             android:background="@drawable/shapeemail"
             android:drawableLeft="@drawable/ic_person_black_24dp"
             android:drawablePadding="@dimen/_10dp"
             android:hint="@string/prompt_username"
-            android:imeOptions="actionNext"
             android:textColor="@color/white"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:textColorHint="@color/white"
             android:textColorHighlight="@color/white"/>
 
@@ -33,45 +36,52 @@
             android:id="@+id/password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="15dp"
             android:maxLines="1"
-            android:imeOptions="actionNext"
+            android:layout_margin="@dimen/_10dp"
+            android:padding="@dimen/_15dp"
             android:background="@drawable/shapeemail"
             android:drawableLeft="@drawable/ic_lock_black_24dp"
             android:drawablePadding="@dimen/_10dp"
             android:hint="@string/prompt_password"
+            android:textColor="@color/white"
+            android:inputType="textPassword"
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/white"
+            android:textColorHighlight="@color/white"/>
+
+
+    <EditText
+            android:id="@+id/Confirmpassword_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10dp"
+            android:padding="@dimen/_15dp"
+            android:maxLines="1"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:background="@drawable/shapeemail"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:drawablePadding="@dimen/_10dp"
+            android:hint="@string/prompt_confirm_password"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textColorHighlight="@color/white"/>
 
 
     <Button
-            android:id="@+id/sign_in_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_sign_in"
-            android:shadowColor="@android:color/transparent"
-            android:padding="@dimen/_15dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_marginRight="@dimen/_10dp"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginBottom="@dimen/_10dp"
-            android:layout_marginTop="@dimen/_10dp"
-            android:background="@drawable/shapelogin"/>
-
-    <Button
-            android:id="@+id/signuplink"
+            android:id="@+id/sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/action_sign_up"
             android:shadowColor="@android:color/transparent"
             android:padding="@dimen/_15dp"
             android:layout_marginRight="@dimen/_10dp"
+            android:imeOptions="actionDone"
             android:layout_marginLeft="@dimen/_10dp"
             android:layout_marginBottom="@dimen/_10dp"
             android:layout_marginTop="@dimen/_0dp"
-            android:background="@android:color/transparent"
+            android:background="@drawable/shapesignup"
             android:textColor="@color/white"/>
+
 
 </LinearLayout>

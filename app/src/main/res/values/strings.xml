@@ -2,13 +2,15 @@
 <resources>
 
     <string name="app_name">ChatAPPSocketIo</string>
-    <string name="action_leave">Leave</string>
+    <string name="action_leave">Logout</string>
+    <string name="chatbot">Chatbot</string>
     <string name="action_send">Send</string>
     <string name="prompt_message">Message</string>
-
+    <string name="user_already_exixt">User already Exist Try Another Name</string>
     <string name="connect">Connected</string>
     <string name="disconnect">Disconnected, Please check your internet connection</string>
     <string name="error_connect">Failed to connect</string>
+    <string name="server_failure">Failed to conncet to server</string>
 
     <!-- messages -->
     <string name="message_welcome">Welcome to Socket.IO Chat –</string>
@@ -16,8 +18,22 @@
         <item quantity="one">there\'s %d participant</item>
         <item quantity="other">there are %d participants</item>
     </plurals>
-    <string name="message_user_joined">%s joined</string>
     <string name="message_user_left">%s left</string>
     <string name="user_action_typing">is typing</string>
+    <string name="title_activity_registration">Registration</string>
+    <string name="wrong_username_password">Wrong UserName or Password</string>
+    <string name="pass_missmatch">Password Does not Match</string>
+    <string name="wrong_username">Wrong username</string>
+    <string name="wrong_Password">Wrong Password</string>
+    <string name="userlist">userlist</string>
+    <string name="connect_user">connect_user</string>
+    <string name="chatroom">ChatRoom</string>
+    <string name="userSocket_id">userSocket_id</string>
+    <string name="server_message">server message</string>
+    <string name="typing">typing</string>
+    <string name="get_message">get message</string>
+    <string name="socket_id">socket_id</string>
+    <string name="send_message">send message</string>
+    <string name="client_message">client message</string>
 
 </resources>
