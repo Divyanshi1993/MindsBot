@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.referminds.app.chat.Model.User;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Utils.CommonSessionCall;
 import com.referminds.app.chat.Utils.Utility;
 
 public class Registration extends AppCompatActivity {
@@ -20,7 +20,7 @@ public class Registration extends AppCompatActivity {
     String mpassword, mConfrimPassword, musername;
     User user;
     private Utility utility;
-    private CommonSessionCallbck commonSessionCallbck;
+    private CommonSessionCall commonSessionCallbck;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.registration);
         user = new User();
         utility = new Utility();
-        commonSessionCallbck = new CommonSessionCallbck(this);
+        commonSessionCallbck = new CommonSessionCall(this);
         init();
         initListners();
 

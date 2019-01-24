@@ -16,7 +16,8 @@ import com.referminds.app.chat.Activity.MainActivity;
 import com.referminds.app.chat.Adapter.MessageAdapter;
 import com.referminds.app.chat.Model.Message;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Repository.RealmDB;
+import com.referminds.app.chat.Utils.CommonSessionCall;
 import com.referminds.app.chat.Utils.CommonSocketManager;
 import com.referminds.app.chat.Utils.Utility;
 import io.socket.client.Socket;
@@ -33,10 +34,11 @@ public class ChatrRoomFragment extends Fragment {
     private boolean mTyping = false;
     private Socket mSocket;
     private Boolean isConnected = true;
-    private String userSocket_id, user_name, mUsername;
+    private String userSocket_id, mUsername;
+    private String conv_name;
     private CommonSocketManager commonSocketManager;
     private Utility utility;
-    private CommonSessionCallbck commonSessionCallbck;
+    private CommonSessionCall commonSessionCallbck;
 
     public ChatrRoomFragment() {
         super();
@@ -53,7 +55,7 @@ public class ChatrRoomFragment extends Fragment {
         if (context instanceof Activity) {
             mAdapter = new MessageAdapter(context, mMessages);
             utility = new Utility();
-            commonSessionCallbck = new CommonSessionCallbck();
+            commonSessionCallbck = new CommonSessionCall();
         }
     }
 
@@ -66,15 +68,16 @@ public class ChatrRoomFragment extends Fragment {
         String argsString = this.getArguments().getString(getString(R.string.userSocket_id), null);
 
         userSocket_id = argsString.split(",")[0];
-        user_name = argsString.split(",")[1];
+        conv_name = argsString.split(",")[1];
 
         setHasOptionsMenu(true);
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(user_name);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(conv_name);
+
     }
 
     private void initializeSocket() {
-        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList());
+        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList(),conv_name);
         mSocket = ((MainActivity) getActivity()).getSocket();
         // mSocket.on("server message", onNewMessage);
         mSocket.on(getString(R.string.typing), commonSocketManager.onTyping);
@@ -82,7 +85,7 @@ public class ChatrRoomFragment extends Fragment {
 
       /*
         mSocket.on("stop typing", onStopTyping);*/
-       // mSocket.connect();
+
     }
 
     @Override
@@ -91,27 +94,14 @@ public class ChatrRoomFragment extends Fragment {
         return inflater.inflate(R.layout.chatfrg, container, false);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-/*
-        mSocket.disconnect();
-
-        mSocket.off(Socket.EVENT_CONNECT, onConnect);
-        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
-        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-         mSocket.off("new message", onNewMessage);
-        mSocket.off("typing", onTyping);
-        mSocket.off("stop typing", onStopTyping);*/
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         initializeSocket();
-
+        RealmDB db = new RealmDB();
+        db.readConversation(conv_name,commonSocketManager);
     }
 
     private void initView(View view) {
@@ -144,7 +134,7 @@ public class ChatrRoomFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commonSocketManager.sendMsgToOtherUser(mInputMessageView, mSocket, userSocket_id, getActivity());
+                commonSocketManager.sendMsgToOtherUser(mInputMessageView, mSocket, userSocket_id,conv_name);
 
             }
         });
@@ -171,7 +161,7 @@ public class ChatrRoomFragment extends Fragment {
             case R.id.action_chatbot:
                 ((MainActivity) getActivity()).createFragment(new ChatBoatFragment(), getString(R.string.chatbot));
                 break;
-            case R.id.action_favorite:
+            case R.id.action_add_user:
                 utility.showDialog(getActivity(), ((MainActivity) getActivity()).getUserList(), ChatrRoomFragment.this);
                 break;
         }

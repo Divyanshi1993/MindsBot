@@ -6,37 +6,55 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import com.google.gson.Gson;
 import com.referminds.app.chat.Activity.MainActivity;
+import com.referminds.app.chat.Model.Conversation;
 import com.referminds.app.chat.Model.Message;
 import com.referminds.app.chat.Model.ServerMessage;
 import com.referminds.app.chat.Model.User;
 import com.referminds.app.chat.R;
+import com.referminds.app.chat.Repository.RealmDB;
 import io.socket.client.Socket;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class CommonListenerManager {
+public class CommonUiUpdate {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mMessagesView;
     private List<Message> mMessages;
     private Context context;
+    private String prefUserName;
 
-    public CommonListenerManager() {
-
+    public CommonUiUpdate() {
     }
 
-    public CommonListenerManager(Context mContext, List<Message> mMessages, RecyclerView.Adapter mAdapter, RecyclerView mMessagesView) {
+    public CommonUiUpdate(Context mContext, List<Message> mMessages, RecyclerView.Adapter mAdapter, RecyclerView mMessagesView) {
         this();
         this.context = mContext;
         this.mAdapter = mAdapter;
         this.mMessages = mMessages;
         this.mMessagesView = mMessagesView;
+        prefUserName = ((MainActivity) mContext).getSession().getUsername();
 
+    }
+    public void loadConversation(Conversation conversation) {
+        for(Message message : conversation.getMessageList()){
+        if (message.getUsername().equals(prefUserName)) {
+            mMessages.add(new Message.Builder(Message.TYPE_My_MESSAGE)
+                    .username(message.getUsername()).message(message.getMessage()).build());
+            mAdapter.notifyItemInserted(mMessages.size() - 1);
+        } else {
+            mMessages.add(new Message.Builder(Message.TYPE_OTHER_MESSGE)
+                    .username(message.getUsername()).message(message.getMessage()).build());
+            mAdapter.notifyItemInserted(mMessages.size() - 1);
+        }
+        scrollToBottom(mMessagesView);}
     }
 
     public void addMessage(String username, String message, Boolean isMyMessage) {
         if (isMyMessage) {
-            mMessages.add(new Message.Builder(Message.TYPE_MESSAGE)
+            mMessages.add(new Message.Builder(Message.TYPE_My_MESSAGE)
                     .username(username).message(message).build());
             mAdapter.notifyItemInserted(mMessages.size() - 1);
         } else if (!isMyMessage) {
@@ -44,7 +62,6 @@ public class CommonListenerManager {
                     .username(username).message(message).build());
             mAdapter.notifyItemInserted(mMessages.size() - 1);
         }
-
         scrollToBottom(mMessagesView);
     }
 
@@ -58,7 +75,7 @@ public class CommonListenerManager {
             if (response[1].toString() != null && response[0].toString() != null) {
                 // String prefSocketId = ((MainActivity) mContext).getSession().getSoketId();
                 String prefSocketId = null;
-                String prefUserName = ((MainActivity) mContext).getSession().getUsername();
+
                 //String mSocketId = prefSocketId == null ? response[1].toString() : prefSocketId;
                 String usersJSON = response[0].toString();
                 Gson gson = new Gson();
@@ -99,10 +116,22 @@ public class CommonListenerManager {
         }
     }
 
-    public void sendMsgToOtherUser(String fromId, String toId, String msg, Socket mSocket) {
+    public void sendMsgToOtherUser(String conv_name,String fromId, String toId, String msg, Socket mSocket) {
         ServerMessage userMessage = new ServerMessage(fromId, toId, msg);
         Gson gson = new Gson();
         mSocket.emit(context.getString(R.string.send_message), gson.toJson(userMessage));
-        addMessage(((MainActivity) context).getSession().getUsername(), msg, true);
+        String username =((MainActivity) context).getSession().getUsername();
+
+        addMessage(username, msg, true);
+
+        updateMsgToRealm(conv_name,username,msg);
+
+
+    }
+    public void updateMsgToRealm(String conv_name ,String username ,String msg){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String millisInString  = dateFormat.format(new Date());
+        RealmDB realmDB = new RealmDB();
+        realmDB.updateConversation(conv_name,username,msg,millisInString);
     }
 }

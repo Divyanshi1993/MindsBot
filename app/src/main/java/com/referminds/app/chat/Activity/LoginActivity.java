@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.referminds.app.chat.Model.SessionManager;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Utils.CommonSessionCallbck;
-import com.referminds.app.chat.Utils.Utility;
+import com.referminds.app.chat.Utils.CommonSessionCall;
 
 
 /**
@@ -22,17 +21,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button signuplink;
     private String username, pass;
     private Button signInButton;
-    private Utility utility;
     private SessionManager sessionManager;
-    private CommonSessionCallbck commonSessionCallbck;
+    private CommonSessionCall commonSessionCallbck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        utility = new Utility();
         sessionManager = new SessionManager(this);
-        commonSessionCallbck = new CommonSessionCallbck(this);
+        commonSessionCallbck = new CommonSessionCall(this);
         intViews();
     }
 
@@ -80,8 +77,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onAuthenticated() {
         sessionManager.createLoginSession(username, null);
         Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-        finish();
         startActivity(loginIntent);
+        finish();
+
 
     }
 

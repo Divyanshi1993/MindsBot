@@ -18,7 +18,8 @@ import com.referminds.app.chat.Activity.MainActivity;
 import com.referminds.app.chat.Adapter.MessageAdapter;
 import com.referminds.app.chat.Model.Message;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Utils.CommonSessionCallbck;
+import com.referminds.app.chat.Repository.RealmDB;
+import com.referminds.app.chat.Utils.CommonSessionCall;
 import com.referminds.app.chat.Utils.CommonSocketManager;
 import com.referminds.app.chat.Utils.Utility;
 import io.socket.client.Socket;
@@ -72,7 +73,7 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initializeSocket() {
-        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList());
+        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList(),"chatbot");
         mSocket = ((MainActivity) getActivity()).getSocket();
         mSocket.on(getString(R.string.server_message), commonSocketManager.onNewMessage);
         mSocket.on(getString(R.string.typing), commonSocketManager.onTyping);
@@ -101,6 +102,8 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         initializeSocket();
+        RealmDB db = new RealmDB();
+        db.readConversation("chatbot",commonSocketManager);
 
     }
 
@@ -157,9 +160,9 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_leave:
-                new CommonSessionCallbck().signout(getActivity(), mUsername);
+                new CommonSessionCall().signout(getActivity(), mUsername);
                 break;
-            case R.id.action_favorite:
+            case R.id.action_add_user:
 
                 utility.showDialog(getActivity(), ((MainActivity) getActivity()).getUserList(), ChatBoatFragment.this);
                 break;
@@ -174,7 +177,7 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
             case R.id.message_input:
                 break;
             case R.id.send_button:
-                commonSocketManager.attemptSend(mSocket, mInputMessageView, getActivity());
+                commonSocketManager.attemptSend(mSocket, mInputMessageView);
                 break;
         }
     }

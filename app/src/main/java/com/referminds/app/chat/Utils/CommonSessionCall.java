@@ -18,15 +18,15 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
-public class CommonSessionCallbck {
+public class CommonSessionCall {
     private AppCompatActivity activity;
     private Utility utility;
 
-    public CommonSessionCallbck() {
+    public CommonSessionCall() {
         utility = new Utility();
     }
 
-    public CommonSessionCallbck(AppCompatActivity activity) {
+    public CommonSessionCall(AppCompatActivity activity) {
         this();
         this.activity = activity;
     }
@@ -65,7 +65,7 @@ public class CommonSessionCallbck {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 404 || response.body() == null) {
                     ((LoginActivity) activity).onAuthenticationFailed();
-                    utility.showSnackbar(activity, activity.getString(R.string.wrong_username_password));
+                    utility.showSnackbar(activity, activity.getString(R.string.unauthorize));
                 } else if (response.code() == 201) {
                     utility.showSnackbar(activity, activity.getString(R.string.user_already_exixt));
 
