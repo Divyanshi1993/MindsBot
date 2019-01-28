@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         session = new SessionManager(this);
-        //check user logged in or not?
-        ChatApplication.getChataap().getAppComponent().inject(this);
+        //check user logged in or not
         if (session.checkLogin()) {
             setContentView(R.layout.activity_main);
 
