@@ -48,7 +48,7 @@ public class ChatApplication extends Application {
     }
 
     private void Daggerinit() {
-        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+      //  appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
     }
 
     public AppComponent getAppComponent() {
