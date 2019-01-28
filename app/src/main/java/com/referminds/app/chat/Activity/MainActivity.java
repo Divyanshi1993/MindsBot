@@ -27,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-     //   app.getAppComponent().inject(this);
-
         session = new SessionManager(this);
         //check user logged in or not?
+        ChatApplication.getChataap().getAppComponent().inject(this);
         if (session.checkLogin()) {
             setContentView(R.layout.activity_main);
+
             userlist = new ArrayList();
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-/*
+        if(mSocket != null)
         mSocket.disconnect();
-
+/*
         mSocket.off(Socket.EVENT_CONNECT, onConnect);
         mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
