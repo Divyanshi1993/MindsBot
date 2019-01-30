@@ -1,77 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorPrimary"
-              android:orientation="vertical"
-              android:gravity="center"
-              android:paddingLeft="@dimen/_20dp"
-              android:paddingRight="@dimen/_20dp">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <data>
+
+        <variable
+            name="loginViewModel"
+            type="com.referminds.app.chat.viewmodel.LoginViewModel"></variable>
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_20dp"
+        android:paddingRight="@dimen/_20dp">
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_signin"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_signin" />
 
-    <EditText
+        <EditText
             android:id="@+id/username_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10dp"
-            android:padding="@dimen/_15dp"
-            android:maxLines="1"
             android:background="@drawable/shapeemail"
             android:drawableLeft="@drawable/ic_person_black_24dp"
             android:drawablePadding="@dimen/_10dp"
             android:hint="@string/prompt_username"
             android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:padding="@dimen/_15dp"
+            app:error="@{loginViewModel.errorUserNmae}"
+            android:text="@={loginViewModel.username}"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textColorHighlight="@color/white"/>
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white" />
 
-    <EditText
+        <EditText
             android:id="@+id/password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:padding="15dp"
-            android:maxLines="1"
-            android:imeOptions="actionNext"
             android:background="@drawable/shapeemail"
             android:drawableLeft="@drawable/ic_lock_black_24dp"
             android:drawablePadding="@dimen/_10dp"
             android:hint="@string/prompt_password"
+            app:error="@{loginViewModel.errorPassword}"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:text="@={loginViewModel.password}"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textColorHighlight="@color/white"/>
+            android:textColorHighlight="@color/white"
+            android:textColorHint="@color/white" />
 
 
-    <Button
+        <Button
             android:id="@+id/sign_in_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_sign_in"
-            android:shadowColor="@android:color/transparent"
-            android:padding="@dimen/_15dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_marginRight="@dimen/_10dp"
             android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginBottom="@dimen/_10dp"
             android:layout_marginTop="@dimen/_10dp"
-            android:background="@drawable/shapelogin"/>
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_marginBottom="@dimen/_10dp"
+            android:background="@drawable/shapelogin"
+            android:padding="@dimen/_15dp"
+            android:onClick="@{()-> loginViewModel.onSignInbtnClicked()}"
+            android:shadowColor="@android:color/transparent"
+            android:text="@string/action_sign_in"
+            android:textColor="@color/colorPrimaryDark" />
 
-    <Button
+        <Button
             android:id="@+id/signuplink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_sign_up"
-            android:shadowColor="@android:color/transparent"
-            android:padding="@dimen/_15dp"
-            android:layout_marginRight="@dimen/_10dp"
             android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginBottom="@dimen/_10dp"
             android:layout_marginTop="@dimen/_0dp"
+            android:layout_marginRight="@dimen/_10dp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:background="@android:color/transparent"
-            android:textColor="@color/white"/>
+            android:padding="@dimen/_15dp"
+            android:onClick="@{()->loginViewModel.onSignInLinkClicked()}"
+            android:shadowColor="@android:color/transparent"
+            android:text="@string/action_sign_up"
+            android:textColor="@color/white" />
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

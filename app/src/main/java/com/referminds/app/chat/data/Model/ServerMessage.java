@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Model;
+package com.referminds.app.chat.data.Model;
 
 public class ServerMessage {
     private String from_id;

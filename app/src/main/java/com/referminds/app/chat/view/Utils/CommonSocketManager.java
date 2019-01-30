@@ -1,18 +1,24 @@
-package com.referminds.app.chat.Utils;
+package com.referminds.app.chat.view.Utils;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.EditText;
+
 import com.google.gson.Gson;
-import com.referminds.app.chat.Activity.MainActivity;
-import com.referminds.app.chat.Model.*;
 import com.referminds.app.chat.R;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
+import com.referminds.app.chat.data.Model.Conversation;
+import com.referminds.app.chat.data.Model.Message;
+import com.referminds.app.chat.data.Model.ServerMessage;
+import com.referminds.app.chat.data.Model.SessionManager;
+import com.referminds.app.chat.data.Model.User;
+import com.referminds.app.chat.view.Activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class CommonSocketManager {
     private SessionManager sessionManager;
