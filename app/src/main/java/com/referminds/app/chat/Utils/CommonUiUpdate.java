@@ -26,7 +26,10 @@ public class CommonUiUpdate {
     private Context context;
     private String prefUserName;
 
-    public CommonUiUpdate() {
+    public CommonUiUpdate(){}
+    public CommonUiUpdate(AppCompatActivity mContext) {
+        this();
+        prefUserName = ((MainActivity) mContext).getSession().getUsername();
     }
 
     public CommonUiUpdate(Context mContext, List<Message> mMessages, RecyclerView.Adapter mAdapter, RecyclerView mMessagesView) {
@@ -36,7 +39,6 @@ public class CommonUiUpdate {
         this.mMessages = mMessages;
         this.mMessagesView = mMessagesView;
         prefUserName = ((MainActivity) mContext).getSession().getUsername();
-
     }
     public void loadConversation(Conversation conversation) {
         for(Message message : conversation.getMessageList()){

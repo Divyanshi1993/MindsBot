@@ -24,6 +24,7 @@ public class CommonSocketManager {
     private List<Message> mMessages;
     private ArrayList<User> userlist;
     private String conv_name;
+    private CommonUiUpdate commonListenerManager;
     public CommonSocketManager() {
         utility = new Utility();
         commonSessionCallbck = new CommonSessionCall();
@@ -33,7 +34,7 @@ public class CommonSocketManager {
         this();
         mContext = activity;
         this.userlist = userlist;
-        commonListenerManager = new CommonUiUpdate();
+        commonListenerManager = new CommonUiUpdate(mContext);
         sessionManager = ((MainActivity) mContext).getSession();
     }
 
@@ -64,7 +65,7 @@ public class CommonSocketManager {
             });
         }
     };
-    private CommonUiUpdate commonListenerManager;
+
     public Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {

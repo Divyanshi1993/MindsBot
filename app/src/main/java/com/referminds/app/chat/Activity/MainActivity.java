@@ -80,10 +80,9 @@ public class MainActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_DISCONNECT, commonSocketManager.onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, commonSocketManager.onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, commonSocketManager.onConnectError);
+        mSocket.emit(getString(R.string.connect_user), userName);
         mSocket.on(getString(R.string.userlist), commonSocketManager.onUpdateuUerlist);
         mSocket.connect();
-        mSocket.emit(getString(R.string.connect_user), userName);
-
     }
 
 
