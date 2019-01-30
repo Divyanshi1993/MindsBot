@@ -1,4 +1,4 @@
-package com.referminds.app.chat.DI;
+package com.referminds.app.chat.di;
 
 import android.content.Context;
 import dagger.Module;

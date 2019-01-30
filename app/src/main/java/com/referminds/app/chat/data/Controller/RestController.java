@@ -1,6 +1,6 @@
-package com.referminds.app.chat.Controller;
+package com.referminds.app.chat.data.Controller;
 
-import com.referminds.app.chat.Model.User;
+import com.referminds.app.chat.data.Model.User;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

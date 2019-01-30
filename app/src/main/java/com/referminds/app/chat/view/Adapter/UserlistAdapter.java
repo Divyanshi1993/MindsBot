@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Adapter;
+package com.referminds.app.chat.view.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.referminds.app.chat.Activity.MainActivity;
-import com.referminds.app.chat.Fragment.ChatrRoomFragment;
-import com.referminds.app.chat.Model.User;
+
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Utils.Utility;
+import com.referminds.app.chat.data.Model.User;
+import com.referminds.app.chat.view.Activity.MainActivity;
+import com.referminds.app.chat.view.Fragment.ChatrRoomFragment;
+import com.referminds.app.chat.view.Utils.Utility;
 
 import java.util.List;
 

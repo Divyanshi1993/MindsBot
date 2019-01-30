@@ -1,17 +1,18 @@
-package com.referminds.app.chat.Singelton;
+package com.referminds.app.chat;
 
 import android.app.Application;
-import com.referminds.app.chat.DI.AppComponent;
-import com.referminds.app.chat.DI.AppModule;
-import com.referminds.app.chat.Utils.Constants;
+
+import com.referminds.app.chat.di.AppComponent;
+import com.referminds.app.chat.view.Utils.Constants;
+
+import java.net.URISyntaxException;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.net.URISyntaxException;
 
 public class ChatApplication extends Application {
 

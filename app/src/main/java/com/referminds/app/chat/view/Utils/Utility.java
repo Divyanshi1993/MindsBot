@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Utils;
+package com.referminds.app.chat.view.Utils;
 
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
@@ -12,8 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import com.referminds.app.chat.Adapter.UserlistAdapter;
+
 import com.referminds.app.chat.R;
+import com.referminds.app.chat.view.Adapter.UserlistAdapter;
 
 import java.util.ArrayList;
 

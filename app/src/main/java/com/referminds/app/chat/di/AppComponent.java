@@ -1,6 +1,7 @@
-package com.referminds.app.chat.DI;
+package com.referminds.app.chat.di;
 
-import com.referminds.app.chat.Activity.MainActivity;
+import com.referminds.app.chat.view.Activity.MainActivity;
+
 import dagger.Component;
 
 @Component(modules = AppModule.class)
