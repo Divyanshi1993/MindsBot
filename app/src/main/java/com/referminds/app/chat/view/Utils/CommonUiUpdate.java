@@ -1,23 +1,25 @@
-package com.referminds.app.chat.Utils;
+package com.referminds.app.chat.view.Utils;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
 import com.google.gson.Gson;
-import com.referminds.app.chat.Activity.MainActivity;
-import com.referminds.app.chat.Model.Conversation;
-import com.referminds.app.chat.Model.Message;
-import com.referminds.app.chat.Model.ServerMessage;
-import com.referminds.app.chat.Model.User;
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.Repository.RealmDB;
-import io.socket.client.Socket;
+import com.referminds.app.chat.data.Model.Conversation;
+import com.referminds.app.chat.data.Model.Message;
+import com.referminds.app.chat.data.Model.ServerMessage;
+import com.referminds.app.chat.data.Model.User;
+import com.referminds.app.chat.data.Repository.RealmDB;
+import com.referminds.app.chat.view.Activity.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import io.socket.client.Socket;
 
 public class CommonUiUpdate {
     private RecyclerView.Adapter mAdapter;
@@ -26,7 +28,10 @@ public class CommonUiUpdate {
     private Context context;
     private String prefUserName;
 
-    public CommonUiUpdate() {
+    public CommonUiUpdate(){}
+    public CommonUiUpdate(AppCompatActivity mContext) {
+        this();
+        prefUserName = ((MainActivity) mContext).getSession().getUsername();
     }
 
     public CommonUiUpdate(Context mContext, List<Message> mMessages, RecyclerView.Adapter mAdapter, RecyclerView mMessagesView) {
@@ -36,7 +41,6 @@ public class CommonUiUpdate {
         this.mMessages = mMessages;
         this.mMessagesView = mMessagesView;
         prefUserName = ((MainActivity) mContext).getSession().getUsername();
-
     }
     public void loadConversation(Conversation conversation) {
         for(Message message : conversation.getMessageList()){

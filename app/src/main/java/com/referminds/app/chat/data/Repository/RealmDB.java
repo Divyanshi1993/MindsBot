@@ -1,9 +1,9 @@
-package com.referminds.app.chat.Repository;
+package com.referminds.app.chat.data.Repository;
 
 import android.util.Log;
-import com.referminds.app.chat.Model.Conversation;
-import com.referminds.app.chat.Model.Message;
-import com.referminds.app.chat.Utils.CommonSocketManager;
+import com.referminds.app.chat.data.Model.Conversation;
+import com.referminds.app.chat.data.Model.Message;
+import com.referminds.app.chat.view.Utils.CommonSocketManager;
 import io.realm.Realm;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 

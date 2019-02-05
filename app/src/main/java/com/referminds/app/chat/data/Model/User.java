@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Model;
+package com.referminds.app.chat.data.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,21 +8,21 @@ public class User {
 
     }
 
-    public User(String name, String socketid) {
+    public User(String name, String password) {
         this();
         this.name = name;
-        this.soketId = socketid;
+        this.password = password;
 
     }
 
     @SerializedName("name")
     @Expose
-    String name;
+    private String name;
 
     @SerializedName("password")
     @Expose
-    String password;
-    String soketId;
+   private String password;
+    private  String soketId;
 
     public String getName() {
         return name;

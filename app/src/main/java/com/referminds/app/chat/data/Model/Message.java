@@ -1,7 +1,6 @@
-package com.referminds.app.chat.Model;
+package com.referminds.app.chat.data.Model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class Message extends RealmObject {

@@ -1,4 +1,4 @@
-package com.referminds.app.chat.Model;
+package com.referminds.app.chat.data.Model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

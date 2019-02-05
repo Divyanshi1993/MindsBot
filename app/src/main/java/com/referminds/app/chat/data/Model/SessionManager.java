@@ -1,26 +1,25 @@
-package com.referminds.app.chat.Model;
+package com.referminds.app.chat.data.Model;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import com.referminds.app.chat.Activity.LoginActivity;
-import com.referminds.app.chat.Activity.MainActivity;
+import com.referminds.app.chat.view.Activity.LoginActivity;
+import com.referminds.app.chat.view.Activity.MainActivity;
 
-import java.security.PublicKey;
 import java.util.HashMap;
 
 public class SessionManager {
     // Shared Preferences
-    SharedPreferences pref;
+    private SharedPreferences pref;
 
     // Editor for Shared preferences
-    SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
 
     // Context
-    Context _context;
+    private Context _context;
 
     // Shared pref mode
-    int PRIVATE_MODE = 0;
+    private   int PRIVATE_MODE = 0;
 
     // Sharedpref file name
     private static final String PREF_NAME = "referminds";
