@@ -22,7 +22,9 @@ import android.widget.ImageButton;
 
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.Message;
+import com.referminds.app.chat.data.Model.SessionManager;
 import com.referminds.app.chat.data.Repository.RealmDB;
+import com.referminds.app.chat.view.Activity.LoginActivity;
 import com.referminds.app.chat.view.Activity.MainActivity;
 import com.referminds.app.chat.view.Adapter.MessageAdapter;
 import com.referminds.app.chat.view.Utils.CommonSessionCall;
@@ -44,13 +46,11 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
     private List<Message> mMessages = new ArrayList<Message>();
     private RecyclerView.Adapter mAdapter;
     private boolean mTyping = false;
-    private Handler mTypingHandler = new Handler();
     private String mUsername;
     private Socket mSocket;
     private CommonSocketManager commonSocketManager;
     private Utility utility;
     private Context mContext;
-
     public ChatBoatFragment() {
         super();
     }
@@ -170,7 +170,6 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
                 new CommonSessionCall().signout(getActivity(), mUsername);
                 break;
             case R.id.action_add_user:
-
                 utility.showDialog(getActivity(), ((MainActivity) getActivity()).getUserList(), ChatBoatFragment.this);
                 break;
         }
@@ -188,6 +187,7 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
 
 
 }

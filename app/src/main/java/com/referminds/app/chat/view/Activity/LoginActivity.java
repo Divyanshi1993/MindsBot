@@ -11,7 +11,10 @@ import android.widget.EditText;
 
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.SessionManager;
+import com.referminds.app.chat.data.Model.User;
 import com.referminds.app.chat.databinding.ActivityLoginBinding;
+import com.referminds.app.chat.view.Listners.AuthenticationListner;
+import com.referminds.app.chat.view.Listners.LoginNavigator;
 import com.referminds.app.chat.view.Utils.CommonSessionCall;
 import com.referminds.app.chat.viewmodel.LoginViewModel;
 
@@ -19,96 +22,60 @@ import com.referminds.app.chat.viewmodel.LoginViewModel;
 /**
  * A login screen that offers login via username.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private EditText mUsernameView, password_input;
-    private Button signuplink;
-    private String username, pass;
-    private Button signInButton;
+public class LoginActivity extends AppCompatActivity implements AuthenticationListner, LoginNavigator {
     private SessionManager sessionManager;
     private CommonSessionCall commonSessionCallbck;
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityLoginBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+        sessionManager = new SessionManager(this);
+        commonSessionCallbck = new CommonSessionCall(this);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         LoginViewModel viewModel = new LoginViewModel();
         binding.setLoginViewModel(viewModel);
-        viewModel.init(this);
+        viewModel.setNavigator(this);
 
-       // setContentView(R.layout.activity_login);
-       // sessionManager = new SessionManager(this);
-       // commonSessionCallbck = new CommonSessionCall(this);
-       // intViews();
-    }
-
-    private void intViews() {
-        mUsernameView = (EditText) findViewById(R.id.username_input);
-        password_input = (EditText) findViewById(R.id.password_input);
-        signuplink = findViewById(R.id.signuplink);
-        signInButton = (Button) findViewById(R.id.sign_in_button);
-
-        signInButton.setOnClickListener(this);
-        signuplink.setOnClickListener(this);
-    }
-
-    private void signUp() {
-        // Reset errors.
-        mUsernameView.setError(null);
-
-        // Store values at the time of the login attempt.
-        username = mUsernameView.getText().toString().trim();
-        pass = password_input.getText().toString().trim();
-
-        // Check for a valid username.
-        if (TextUtils.isEmpty(username)) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            mUsernameView.setError(getString(R.string.error_field_required));
-            mUsernameView.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(pass)) {
-            password_input.setError(getString(R.string.error_field_required));
-            password_input.requestFocus();
-            return;
-        }
-
-     //   commonSessionCallbck.attemptLogin(username, pass);
     }
 
 
     public void onAuthenticationFailed() {
-       // mUsernameView.setError(getString(R.string.wrong_username));
-        //password_input.setError(getString(R.string.wrong_Password));
+        binding.usernameInput.setError(getString(R.string.wrong_username));
+        binding.passwordInput.setError(getString(R.string.wrong_Password));
     }
 
-    public void onAuthenticated() {
+    @Override
+    public void onAuthenticated(String username) {
         sessionManager.createLoginSession(username, null);
-        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(loginIntent);
-        finish();
+        openMainActivity();
 
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-               // signUp();
-
-                break;
-            case R.id.signuplink:
-              //  navigateToSignin();
-                break;
+    public void setError(String type) {
+        if (type.equals("username")) {
+            binding.usernameInput.setError(getString(R.string.error_field_required));
+        } else {
+            binding.passwordInput.setError(getString(R.string.error_field_required));
         }
     }
 
-    private void navigateToSignin() {
+    @Override
+    public void attemptSignin(User user) {
+        commonSessionCallbck.signIn(user);
+    }
+
+    public void navigateToSignup() {
         Intent signUpIntent = new Intent(LoginActivity.this, Registration.class);
         startActivity(signUpIntent);
     }
+
+    @Override
+    public void openMainActivity() {
+        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(loginIntent);
+        finish();
+    }
 }
-
-
-

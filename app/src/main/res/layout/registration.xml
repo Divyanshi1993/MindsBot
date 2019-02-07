@@ -4,97 +4,97 @@
     <data>
 
         <variable
-            name="regViewModel"
-            type="com.referminds.app.chat.viewmodel.RegistrationViewModel"></variable>
+                name="regViewModel"
+                type="com.referminds.app.chat.viewmodel.RegistrationViewModel"></variable>
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/_20dp"
-        android:paddingRight="@dimen/_20dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_20dp"
+            android:paddingRight="@dimen/_20dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_signup" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_signup" />
 
         <EditText
-            android:id="@+id/username_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginRight="@dimen/_10dp"
-            android:layout_marginBottom="@dimen/_10dp"
-            android:background="@drawable/shapeemail"
-            android:drawableLeft="@drawable/ic_person_black_24dp"
-            android:drawablePadding="@dimen/_10dp"
-            android:hint="@string/prompt_username"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="@dimen/_15dp"
-            android:text="@={regViewModel.username}"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@color/white" />
+                android:id="@+id/username_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:layout_marginBottom="@dimen/_10dp"
+                android:background="@drawable/shapeemail"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:drawablePadding="@dimen/_10dp"
+                android:hint="@string/prompt_username"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/_15dp"
+                android:text="@={regViewModel.username}"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white" />
 
         <EditText
-            android:id="@+id/password_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10dp"
-            android:background="@drawable/shapeemail"
-            android:drawableLeft="@drawable/ic_lock_black_24dp"
-            android:drawablePadding="@dimen/_10dp"
-            android:hint="@string/prompt_password"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:padding="@dimen/_15dp"
-            android:text="@={regViewModel.password}"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@color/white" />
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10dp"
+                android:background="@drawable/shapeemail"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawablePadding="@dimen/_10dp"
+                android:hint="@string/prompt_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="@dimen/_15dp"
+                android:text="@={regViewModel.password}"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white" />
 
 
         <EditText
-            android:id="@+id/Confirmpassword_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10dp"
-            android:background="@drawable/shapeemail"
-            android:drawableLeft="@drawable/ic_lock_black_24dp"
-            android:drawablePadding="@dimen/_10dp"
-            android:hint="@string/prompt_confirm_password"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:padding="@dimen/_15dp"
-            android:text="@={regViewModel.confirm_password}"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="@color/white" />
+                android:id="@+id/Confirmpassword_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10dp"
+                android:background="@drawable/shapeemail"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawablePadding="@dimen/_10dp"
+                android:hint="@string/prompt_confirm_password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="@dimen/_15dp"
+                android:text="@={regViewModel.confirm_password}"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="@color/white" />
 
 
         <Button
-            android:id="@+id/sign_up_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginTop="@dimen/_0dp"
-            android:layout_marginRight="@dimen/_10dp"
-            android:onClick="@{()->regViewModel.onSignUPbtnClicked()}"
-            android:layout_marginBottom="@dimen/_10dp"
-            android:background="@drawable/shapesignup"
-            android:imeOptions="actionDone"
-            android:padding="@dimen/_15dp"
-            android:shadowColor="@android:color/transparent"
-            android:text="@string/action_sign_up"
-            android:textColor="@color/white" />
+                android:id="@+id/sign_up_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginTop="@dimen/_0dp"
+                android:layout_marginRight="@dimen/_10dp"
+                android:onClick="@{()->regViewModel.onSignUPbtnClicked()}"
+                android:layout_marginBottom="@dimen/_10dp"
+                android:background="@drawable/shapesignup"
+                android:imeOptions="actionDone"
+                android:padding="@dimen/_15dp"
+                android:shadowColor="@android:color/transparent"
+                android:text="@string/action_sign_up"
+                android:textColor="@color/white" />
 
 
     </LinearLayout>

@@ -4,107 +4,65 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+
 
 import com.referminds.app.chat.R;
+import com.referminds.app.chat.data.Model.User;
 import com.referminds.app.chat.databinding.RegistrationBinding;
+import com.referminds.app.chat.view.Listners.RegistrationNavigator;
+import com.referminds.app.chat.view.Utils.CommonSessionCall;
+import com.referminds.app.chat.view.Utils.Utility;
 import com.referminds.app.chat.viewmodel.RegistrationViewModel;
 
-public class Registration extends AppCompatActivity {
-    Button signUpButton;
-    EditText username, password, confirm_password;
-    String mpassword, mConfrimPassword, musername;
-  //  User user;
-   // private Utility utility;
-   // private CommonSessionCall commonSessionCallbck;
+public class Registration extends AppCompatActivity implements RegistrationNavigator {
+    RegistrationBinding binding;
+    private Utility utility;
+    private CommonSessionCall commonSessionCallbck;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RegistrationBinding binding = DataBindingUtil.setContentView(this,R.layout.registration);
+        binding = DataBindingUtil.setContentView(this, R.layout.registration);
         RegistrationViewModel viewModel = new RegistrationViewModel();
         binding.setRegViewModel(viewModel);
-        viewModel.init(this);
+        viewModel.setNavigator(this);
 
-
-
-       // setContentView(R.layout.registration);
-        //user = new User();
-       // utility = new Utility();
-       // commonSessionCallbck = new CommonSessionCall(this);
-       // init();
-       // initListners();
-
+        utility = new Utility();
+        commonSessionCallbck = new CommonSessionCall(this);
 
     }
 
-    private void initListners() {
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //utility.signinbuttonState(signUpButton, false, getColor(R.color.button_disable));
-                signUp();
 
 
-            }
-        });
-    }
-
-
-    private void init() {
-        signUpButton = (Button) findViewById(R.id.sign_up_button);
-        username = findViewById(R.id.username_input);
-        password = findViewById(R.id.password_input);
-        confirm_password = findViewById(R.id.Confirmpassword_input);
-        confirm_password.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    signUp();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-    }
-
-    private void signUp() {
-        mpassword = password.getText().toString();
-        mConfrimPassword = confirm_password.getText().toString();
-        musername = username.getText().toString();
-        if (!password.getText().equals(null) && !confirm_password.equals(null)) {
-            if (mpassword.equals(confirm_password.getText().toString())) {
-
-                //commonSessionCallbck.SignUP(musername, mpassword);
-            } else {
-                onPasswordMismatched();
-            }
-        }
-    }
-
-    public void openLogin() {
-        finish();
-    }
-
-    private void onPasswordMismatched() {
+    @Override
+    public void onPasswordMismatched() {
         clearViews();
-        password.setError(getString(R.string.pass_missmatch));
-        password.requestFocus();
-      //  utility.showSnackbar(Registration.this, getString(R.string.pass_missmatch));
+        binding.passwordInput.setError(getString(R.string.pass_missmatch));
+        binding.passwordInput.requestFocus();
+        utility.showSnackbar(Registration.this, getString(R.string.pass_missmatch));
     }
 
     public void clearViews() {
-        username.setText("");
-        password.setText("");
-        confirm_password.setText("");
-      //  utility.signinbuttonState(signUpButton, true, getColor(R.color.signinButtonColor));
+        binding.usernameInput.setText("");
+        binding.passwordInput.setText("");
+        binding.ConfirmpasswordInput.setText("");
+        utility.signinbuttonState(binding.signUpButton, true, getColor(R.color.signinButtonColor));
     }
 
 
+    @Override
+    public void setError(String type) {
+        clearViews();
+    }
+
+    @Override
+    public void attemptSignUp(User user) {
+        utility.signinbuttonState(binding.signUpButton, false, getColor(R.color.button_disable));
+        commonSessionCallbck.SignUP(user);
+    }
+
+    @Override
+    public void navigateToSignIn() {
+        finish();
+    }
 }

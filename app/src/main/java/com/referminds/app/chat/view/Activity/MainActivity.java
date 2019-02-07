@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private SessionManager session;
     private String userName;
     private ChatApplication app;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         session = new SessionManager(this);
         //check user logged in or not
         if (session.checkLogin()) {
+            Log.e("check login",session.checkLogin()+"");
             setContentView(R.layout.activity_main);
 
             userlist = new ArrayList();
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         if(mSocket != null)
-        mSocket.disconnect();
+            mSocket.disconnect();
 /*
         mSocket.off(Socket.EVENT_CONNECT, onConnect);
         mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
@@ -73,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
 
     public SessionManager getSession() {
         return session;
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
     }
 
     private void initializeSocket() {
