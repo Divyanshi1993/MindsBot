@@ -17,12 +17,13 @@ import com.referminds.app.chat.R;
 import com.referminds.app.chat.view.Adapter.UserlistAdapter;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Utility {
     //private  static  Dialog dialog;
     private static AlertDialog b;
 
-    public void showDialog(FragmentActivity activity, ArrayList userlist, Fragment fragment) {
+    public void showDialog(FragmentActivity activity, Map<String, String> userlist, Fragment fragment) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         View customTitle = inflater.inflate(R.layout.customtitlebar, null);
@@ -30,7 +31,7 @@ public class Utility {
         dialogBuilder.setView(dialogView);
         dialogBuilder.setCustomTitle(customTitle);
         b = dialogBuilder.create();
-        if (userlist.size() > 0) {
+        if (userlist.size() > 0 ) {
             UserlistAdapter userlistAdapter = new UserlistAdapter(activity, userlist, fragment);
 
             RecyclerView userlistview = (RecyclerView) dialogView.findViewById(R.id.userlistview);

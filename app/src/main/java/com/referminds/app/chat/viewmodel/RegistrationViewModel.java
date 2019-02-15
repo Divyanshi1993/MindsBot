@@ -26,15 +26,14 @@ public class RegistrationViewModel extends BaseViewModel<RegistrationNavigator> 
 
 
     public void onSignUPbtnClicked() {
-        if (!password.getValue().equals(null) && !confirm_password.getValue().equals(null)) {
+        if (password.getValue()!=(null) && confirm_password.getValue()!=null) {
             if (password.getValue().equals(confirm_password.getValue())) {
                 User user = new User();
                 user.setName(username.getValue());
-                user.setPassword(username.getValue());
+                user.setPassword(password.getValue());
                 getNavigator().attemptSignUp(user);
             } else {
                 getNavigator().onPasswordMismatched();
             }
         } }
-
 }

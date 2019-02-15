@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,13 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import android.widget.Toast;
+import com.google.gson.Gson;
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.Message;
+import com.referminds.app.chat.data.Model.ServerMessage;
 import com.referminds.app.chat.data.Repository.RealmDB;
 import com.referminds.app.chat.view.Activity.MainActivity;
 import com.referminds.app.chat.view.Adapter.MessageAdapter;
 import com.referminds.app.chat.view.Utils.CommonSessionCall;
 import com.referminds.app.chat.view.Utils.CommonSocketManager;
+import com.referminds.app.chat.view.Utils.CommonUiUpdate;
 import com.referminds.app.chat.view.Utils.Utility;
 
 import java.util.ArrayList;
@@ -41,7 +46,7 @@ public class ChatrRoomFragment extends Fragment {
     private boolean mTyping = false;
     private Socket mSocket;
     private Boolean isConnected = true;
-    private String userSocket_id, mUsername;
+    private String mUsername;
     private String conv_name;
     private CommonSocketManager commonSocketManager;
     private Utility utility;
@@ -52,13 +57,23 @@ public class ChatrRoomFragment extends Fragment {
     }
 
 
+
+    public static ChatrRoomFragment newInstance(String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString("userSocket_name", name);
+
+        ChatrRoomFragment fragment = new ChatrRoomFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     // This event fires 1st, before creation of fragment or any views
     // The onAttach method is called when the Fragment instance is associated with an Activity.
     // This does not mean the Activity is fully initialized.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //  mAdapter = new MessageAdapter(context, mMessages);
         if (context instanceof Activity) {
             mAdapter = new MessageAdapter(context, mMessages);
             utility = new Utility();
@@ -72,10 +87,7 @@ public class ChatrRoomFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mUsername = ((MainActivity) getActivity()).getSession().getUsername();
 
-        String argsString = this.getArguments().getString(getString(R.string.userSocket_id), null);
-
-        userSocket_id = argsString.split(",")[0];
-        conv_name = argsString.split(",")[1];
+        conv_name = this.getArguments().getString(getString(R.string.userSocket_name), null);
 
         setHasOptionsMenu(true);
 
@@ -84,13 +96,10 @@ public class ChatrRoomFragment extends Fragment {
     }
 
     private void initializeSocket() {
-        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList(),conv_name);
+        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList(), conv_name);
         mSocket = ((MainActivity) getActivity()).getSocket();
-        // mSocket.on("server message", onNewMessage);
-        mSocket.on(getString(R.string.typing), commonSocketManager.onTyping);
-        mSocket.on(getString(R.string.get_message), commonSocketManager.onNewMessageArriveRoom);
-
-      /*
+       /* mSocket.on(getString(R.string.typing), commonSocketManager.onTyping);
+       mSocket.on(getString(R.string.get_message), commonSocketManager.onNewMessageArriveRoom);
         mSocket.on("stop typing", onStopTyping);*/
 
     }
@@ -108,7 +117,7 @@ public class ChatrRoomFragment extends Fragment {
         initView(view);
         initializeSocket();
         RealmDB db = new RealmDB();
-        db.readConversation(conv_name,commonSocketManager);
+        db.readConversation(conv_name, commonSocketManager);
     }
 
     private void initView(View view) {
@@ -124,12 +133,12 @@ public class ChatrRoomFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (null == mUsername) return;
+               /* if (null == mUsername) return;
                 if (!mSocket.connected()) return;
                 if (!mTyping) {
                     mTyping = true;
                     mSocket.emit(getString(R.string.typing), mUsername);
-                }
+                }*/
             }
 
             @Override
@@ -141,7 +150,15 @@ public class ChatrRoomFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commonSocketManager.sendMsgToOtherUser(mInputMessageView, mSocket, userSocket_id,conv_name);
+                String message = mInputMessageView.getText().toString().trim();
+                if (TextUtils.isEmpty(message)) {
+                    mInputMessageView.requestFocus();
+                    return;
+                }
+                mInputMessageView.setText("");
+                String user_socketid = ((MainActivity) getActivity()).getUserList().get(conv_name);
+                commonSocketManager.sendMsgToOtherUser(message, mSocket, user_socketid, conv_name);
+
 
             }
         });
@@ -173,5 +190,17 @@ public class ChatrRoomFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    public  void  onNewMsgArrive(final Object... response){
+        ServerMessage resp = new Gson().fromJson(response[0].toString(), ServerMessage.class);
+        String from_message = resp.getMessage();
+        String user_socketId = resp.getFromId();
+       CommonUiUpdate commonListenerManager = new CommonUiUpdate(getActivity(), mMessages, mAdapter, mMessagesView);
+        if(((MainActivity) getActivity()).getUserList().get(conv_name).equals(user_socketId)){
+            commonListenerManager.addMessage(conv_name, from_message, false);
+            commonListenerManager.updateMsgToRealm(conv_name, conv_name, from_message);}
     }
 }

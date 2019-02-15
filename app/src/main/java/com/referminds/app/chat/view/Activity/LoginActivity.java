@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.SessionManager;
@@ -39,7 +35,10 @@ public class LoginActivity extends AppCompatActivity implements AuthenticationLi
         viewModel.setNavigator(this);
 
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+       }
 
     public void onAuthenticationFailed() {
         binding.usernameInput.setError(getString(R.string.wrong_username));

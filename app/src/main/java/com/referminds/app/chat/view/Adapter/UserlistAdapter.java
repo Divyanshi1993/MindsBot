@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,14 +20,15 @@ import com.referminds.app.chat.view.Fragment.ChatrRoomFragment;
 import com.referminds.app.chat.view.Utils.Utility;
 
 import java.util.List;
+import java.util.Map;
 
 public class UserlistAdapter extends RecyclerView.Adapter<UserlistAdapter.ViewHolder> {
-    private List<User> mUsers;
+    private Map<String, String> mUsers;
     private Context context;
     private Fragment fragment;
     private Utility utility;
 
-    public UserlistAdapter(Context context, List<User> userlist, Fragment fragment) {
+    public UserlistAdapter(Context context, Map<String, String> userlist, Fragment fragment) {
         mUsers = userlist;
         this.context = context;
         this.fragment = fragment;
@@ -43,19 +46,18 @@ public class UserlistAdapter extends RecyclerView.Adapter<UserlistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        final String username = mUsers.get(i).getName();
-        final String SocketId = mUsers.get(i).getSoketId();
+        final String username = mUsers.keySet().toArray()[i].toString();
         viewHolder.mUsernameView.setText(username);
         viewHolder.mCardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChatrRoomFragment chatrRoomFragment = new ChatrRoomFragment();
 
-                Bundle args = new Bundle();
-                args.putString(context.getString(R.string.userSocket_id), SocketId + "," + username);
+                FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                chatrRoomFragment.setArguments(args);
-                ((MainActivity) context).createFragment(chatrRoomFragment, context.getString(R.string.chatroom));
+                Fragment fragment = ChatrRoomFragment.newInstance(username);
+                fragmentTransaction.replace(R.id.myframe, fragment,context.getString(R.string.chatroom));
+                fragmentTransaction.commit();
                 utility.dissmissDialog();
             }
         });

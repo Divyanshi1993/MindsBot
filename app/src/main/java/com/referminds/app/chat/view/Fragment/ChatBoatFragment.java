@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.Message;
 import com.referminds.app.chat.data.Model.SessionManager;
+import com.referminds.app.chat.data.Model.User;
 import com.referminds.app.chat.data.Repository.RealmDB;
 import com.referminds.app.chat.view.Activity.LoginActivity;
 import com.referminds.app.chat.view.Activity.MainActivity;
@@ -33,6 +34,7 @@ import com.referminds.app.chat.view.Utils.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.socket.client.Socket;
 
@@ -51,9 +53,12 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
     private CommonSocketManager commonSocketManager;
     private Utility utility;
     private Context mContext;
+
     public ChatBoatFragment() {
         super();
     }
+
+    private MainListner mCallback;
 
     // This event fires 1st, before creation of fragment or any views
     // The onAttach method is called when the Fragment instance is associated with an Activity.
@@ -74,19 +79,16 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        mUsername = ((MainActivity) getActivity()).getSession().getUsername();
+        mUsername = mCallback.getSession().getUsername();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.chatbot));
 
     }
 
     private void initializeSocket() {
-        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, ((MainActivity) getActivity()).getUserList(),"chatbot");
-        mSocket = ((MainActivity) getActivity()).getSocket();
+        commonSocketManager = new CommonSocketManager((MainActivity) getActivity(), mMessages, mAdapter, mMessagesView, mCallback.getUserList(), "chatbot");
+        mSocket = mCallback.getSocket();
         mSocket.on(getString(R.string.server_message), commonSocketManager.onNewMessage);
-        mSocket.on(getString(R.string.typing), commonSocketManager.onTyping);
-
-
-      /*
+       /* mSocket.on(getString(R.string.typing), commonSocketManager.onTyping);
         mSocket.on("stop typing", onStopTyping);*/
 
     }
@@ -96,7 +98,6 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.chatfrg, container, false);
     }
-
 
 
     @Override
@@ -110,7 +111,7 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
         initView(view);
         initializeSocket();
         RealmDB db = new RealmDB();
-        db.readConversation("chatbot",commonSocketManager);
+        db.readConversation("chatbot", commonSocketManager);
 
     }
 
@@ -170,7 +171,7 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
                 new CommonSessionCall().signout(getActivity(), mUsername);
                 break;
             case R.id.action_add_user:
-                utility.showDialog(getActivity(), ((MainActivity) getActivity()).getUserList(), ChatBoatFragment.this);
+                utility.showDialog(getActivity(), mCallback.getUserList(), ChatBoatFragment.this);
                 break;
         }
 
@@ -188,7 +189,15 @@ public class ChatBoatFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void setonMainCall(MainActivity activity) {
+        mCallback = activity;
+    }
 
-
+    // Container Activity must implement this interface
+    public interface MainListner {
+        public SessionManager getSession();
+        public Map<String, String> getUserList();
+        public Socket getSocket();
+    }
 }
 

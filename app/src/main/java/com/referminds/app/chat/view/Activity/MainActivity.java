@@ -7,24 +7,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import android.widget.Toast;
 import com.referminds.app.chat.ChatApplication;
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.SessionManager;
 import com.referminds.app.chat.data.Model.User;
 import com.referminds.app.chat.view.Fragment.ChatBoatFragment;
+import com.referminds.app.chat.view.Fragment.ChatrRoomFragment;
 import com.referminds.app.chat.view.Utils.CommonSocketManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.socket.client.Socket;
 
 
-public class MainActivity extends AppCompatActivity {
-    private ArrayList<User> userlist;
+public class MainActivity extends AppCompatActivity implements ChatBoatFragment.MainListner {
+    Map<String, String> userSockets;
     private Socket mSocket;
     private SessionManager session;
     private String userName;
     private ChatApplication app;
+    private CommonSocketManager commonSocketManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         session = new SessionManager(this);
         //check user logged in or not
         if (session.checkLogin()) {
-            Log.e("check login",session.checkLogin()+"");
+            Log.e("check login", session.checkLogin() + "");
             setContentView(R.layout.activity_main);
 
-            userlist = new ArrayList();
+            userSockets = new HashMap<>();
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             // Sets the Toolbar to act as the ActionBar for this Activity window.
@@ -50,19 +56,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mSocket != null)
-            mSocket.disconnect();
-/*
-        mSocket.off(Socket.EVENT_CONNECT, onConnect);
-        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
-        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-         mSocket.off("new message", onNewMessage);
-        mSocket.off("typing", onTyping);
-        mSocket.off("stop typing", onStopTyping);*/
+        if (mSocket != null){
+        mSocket.off(Socket.EVENT_CONNECT);
+        mSocket.off(Socket.EVENT_DISCONNECT);
+        mSocket.off(Socket.EVENT_CONNECT_ERROR);
+        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT);
+        mSocket.off(getString(R.string.userlist));
+        mSocket.off(getString(R.string.get_message));
+        mSocket.disconnect();}
     }
 
     private void splashScreen() {
@@ -71,28 +77,30 @@ public class MainActivity extends AppCompatActivity {
         createFragment(new ChatBoatFragment(), getString(R.string.chatbot));
     }
 
+    @Override
     public SessionManager getSession() {
         return session;
     }
 
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-
-    }
-
     private void initializeSocket() {
-        CommonSocketManager commonSocketManager = new CommonSocketManager(this, userlist);
+        commonSocketManager = new CommonSocketManager(this, userSockets);
         app = (ChatApplication) getApplication();
         mSocket = app.getSocket();
         mSocket.on(Socket.EVENT_CONNECT, commonSocketManager.onConnect);
         mSocket.on(Socket.EVENT_DISCONNECT, commonSocketManager.onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, commonSocketManager.onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, commonSocketManager.onConnectError);
-        mSocket.emit(getString(R.string.connect_user), userName);
         mSocket.on(getString(R.string.userlist), commonSocketManager.onUpdateuUerlist);
+        mSocket.on(getString(R.string.get_message), commonSocketManager.onNewMessageArriveRoom);
         mSocket.connect();
+    }
+
+    public void onUserConnected() {
+        if (userName != null) {
+            mSocket.emit(getString(R.string.connect_user), userName);
+        }
+
+
     }
 
 
@@ -101,10 +109,12 @@ public class MainActivity extends AppCompatActivity {
         Log.e("fragment", "fragment creaated");
     }
 
-    public ArrayList<User> getUserList() {
-        return userlist;
+    @Override
+    public Map<String, String> getUserList() {
+        return userSockets;
     }
 
+    @Override
     public Socket getSocket() {
         return mSocket;
     }
@@ -114,5 +124,22 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.myframe, fragment, tag).
                 commit();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (fragment instanceof ChatBoatFragment) {
+            ChatBoatFragment chatBoatFragment = (ChatBoatFragment) fragment;
+            chatBoatFragment.setonMainCall(this);
+        } else if (fragment instanceof ChatrRoomFragment) {
+        }
+    }
+
+    public void onNewMsgArrive(final Object... response) {
+        ChatrRoomFragment chatrRoomFragment = (ChatrRoomFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.chatroom));
+        if (chatrRoomFragment != null && chatrRoomFragment.isVisible()) {
+            chatrRoomFragment.onNewMsgArrive(response);
+        }
+
     }
 }

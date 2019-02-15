@@ -45,6 +45,7 @@ public class CommonSessionCall {
                 } else {
                     Log.e("logout", response.body().toString());
                     MainActivity act = ((MainActivity) activity);
+                    act.getSocket().emit("disconnect_user",username);
                     act.getSocket().disconnect();
                     act.getSession().logoutUser();
 

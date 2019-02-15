@@ -29,7 +29,7 @@
     <string name="userlist">userlist</string>
     <string name="connect_user">connect_user</string>
     <string name="chatroom">ChatRoom</string>
-    <string name="userSocket_id">userSocket_id</string>
+    <string name="userSocket_name">userSocket_name</string>
     <string name="server_message">server message</string>
     <string name="typing">typing</string>
     <string name="get_message">get message</string>
@@ -37,5 +37,6 @@
     <string name="send_message">send message</string>
     <string name="client_message">client message</string>
     <string name="select_user">Select User to Chat</string>
+    <string name="offline_user">"User is offline"</string>
 
 </resources>

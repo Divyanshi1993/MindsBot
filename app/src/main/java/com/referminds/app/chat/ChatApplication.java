@@ -2,6 +2,7 @@ package com.referminds.app.chat;
 
 import android.app.Application;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.referminds.app.chat.di.AppComponent;
 import com.referminds.app.chat.view.Utils.Constants;
 
@@ -32,6 +33,8 @@ public class ChatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
         chataap  = this;
         Daggerinit();
         Realm.init(getApplicationContext());

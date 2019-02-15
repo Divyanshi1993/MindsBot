@@ -15,9 +15,7 @@ import com.referminds.app.chat.data.Repository.RealmDB;
 import com.referminds.app.chat.view.Activity.MainActivity;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import io.socket.client.Socket;
 
@@ -73,25 +71,24 @@ public class CommonUiUpdate {
         mMessagesView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
-    public void UpdateUserlist(ArrayList<User> userlist, AppCompatActivity mContext, Object... response) {
-        userlist.clear();
+    public void UpdateUserlist(Map<String, String> userSockets , AppCompatActivity mContext, Object... response) {
+        userSockets.clear();
         try {
             if (response[1].toString() != null && response[0].toString() != null) {
-                // String prefSocketId = ((MainActivity) mContext).getSession().getSoketId();
                 String prefSocketId = null;
-
                 //String mSocketId = prefSocketId == null ? response[1].toString() : prefSocketId;
                 String usersJSON = response[0].toString();
                 Gson gson = new Gson();
                 User users[] = gson.fromJson(usersJSON, User[].class);
                 for (User user : users) {
                     if (!user.getName().equals(prefUserName)) {
-                        userlist.add(user);
+                    userSockets.put(user.getName(), user.getSoketId());
                     } else {
                         prefSocketId = user.getSoketId();
+                        ((MainActivity) mContext).createSession(prefUserName, prefSocketId);
                     }
                 }
-                ((MainActivity) mContext).createSession(prefUserName, prefSocketId);
+
                 Log.e(mContext.getString(R.string.socket_id), prefSocketId);
             }
 
@@ -106,7 +103,6 @@ public class CommonUiUpdate {
         mMessages.add(new Message.Builder(Message.TYPE_ACTION)
                 .username(username).build());
         mAdapter.notifyItemInserted(mMessages.size() - 1);
-        // scrollToBottom(mMessagesView);
     }
 
 
