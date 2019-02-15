@@ -1,6 +1,6 @@
 # ChatAppSocketIO
 
-## Currently deployed on Heroku at URL
+## Check .Apk with latest Enhancements
 
 ```
 https://i.diawi.com/ZmB5r7
