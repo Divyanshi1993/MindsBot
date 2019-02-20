@@ -1,6 +1,4 @@
 # ChatAppSocketIO
 
-## Check .Apk with latest Enhancements
+## [Download](https://play.google.com/store/apps/details?id=com.referminds.app.chat) App with latest Enhancements
 
-```
-https://i.diawi.com/ZmB5r7
