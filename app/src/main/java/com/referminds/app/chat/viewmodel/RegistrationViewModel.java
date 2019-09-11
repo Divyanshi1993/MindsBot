@@ -15,23 +15,26 @@ import com.referminds.app.chat.view.Utils.Utility;
 
 public class RegistrationViewModel extends BaseViewModel<RegistrationNavigator> {
 
-    public MutableLiveData<String> errorPassword = new MutableLiveData<>();
     public MutableLiveData<String> username = new MutableLiveData<>();
     public MutableLiveData<String> password = new MutableLiveData<>();
     public MutableLiveData<String> confirm_password = new MutableLiveData<>();
-    MutableLiveData<Integer> buttonbackground = new MutableLiveData<>();
-
+    private MutableLiveData<User> userMutableLiveData;
     public RegistrationViewModel() { }
 
+    public  LiveData<User> getUserValidation() {
+        if (userMutableLiveData == null) {
+            userMutableLiveData = new MutableLiveData<>();
+        }
+
+        return userMutableLiveData;
+    }
 
 
     public void onSignUPbtnClicked() {
         if (password.getValue()!=(null) && confirm_password.getValue()!=null) {
             if (password.getValue().equals(confirm_password.getValue())) {
-                User user = new User();
-                user.setName(username.getValue());
-                user.setPassword(password.getValue());
-                getNavigator().attemptSignUp(user);
+                User user = new User(username.getValue(),password.getValue());
+                userMutableLiveData.setValue(user);
             } else {
                 getNavigator().onPasswordMismatched();
             }

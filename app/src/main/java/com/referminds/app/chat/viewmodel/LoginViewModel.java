@@ -38,7 +38,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         }
 
         User user = new User(username.getValue(), password.getValue());
-        getNavigator().attemptSignin(user);
+        userMutableLiveData.setValue(user);
     }
 
     public void onSignInLinkClicked(){

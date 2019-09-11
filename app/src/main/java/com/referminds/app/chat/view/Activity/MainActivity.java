@@ -7,16 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import android.widget.Toast;
 import com.referminds.app.chat.ChatApplication;
 import com.referminds.app.chat.R;
 import com.referminds.app.chat.data.Model.SessionManager;
-import com.referminds.app.chat.data.Model.User;
 import com.referminds.app.chat.view.Fragment.ChatBoatFragment;
-import com.referminds.app.chat.view.Fragment.ChatrRoomFragment;
+import com.referminds.app.chat.view.Fragment.ChatRoomFragment;
 import com.referminds.app.chat.view.Utils.CommonSocketManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements ChatBoatFragment.
         if (userName != null) {
             mSocket.emit(getString(R.string.connect_user), userName);
         }
-
-
     }
 
 
@@ -131,12 +126,12 @@ public class MainActivity extends AppCompatActivity implements ChatBoatFragment.
         if (fragment instanceof ChatBoatFragment) {
             ChatBoatFragment chatBoatFragment = (ChatBoatFragment) fragment;
             chatBoatFragment.setonMainCall(this);
-        } else if (fragment instanceof ChatrRoomFragment) {
+        } else if (fragment instanceof ChatRoomFragment) {
         }
     }
 
     public void onNewMsgArrive(final Object... response) {
-        ChatrRoomFragment chatrRoomFragment = (ChatrRoomFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.chatroom));
+        ChatRoomFragment chatrRoomFragment = (ChatRoomFragment) getSupportFragmentManager().findFragmentByTag(getString(R.string.chatroom));
         if (chatrRoomFragment != null && chatrRoomFragment.isVisible()) {
             chatrRoomFragment.onNewMsgArrive(response);
         }

@@ -25,5 +25,5 @@ public interface LoginNavigator {
 
     void navigateToSignup();
 
-    void openMainActivity();
+    void navigateTonMainActivity();
 }

@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: io.realm:realm-android-library:5.8.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/realm-android-library-5.8.0.aar/41c89089df65be3215b1dd8996602cde/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/realm-android-library-5.8.0.aar/41c89089df65be3215b1dd8996602cde/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/614d2b8fa214e3b8aa97207b2ea3875e/realm-android-library-5.8.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/614d2b8fa214e3b8aa97207b2ea3875e/realm-android-library-5.8.0/res" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.realm/realm-android-library/5.8.0/c6d403d69cd432a4c5cd4d9fda996cc48129b4ff/realm-android-library-5.8.0-javadoc.jar!/" />
+    </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.realm/realm-android-library/5.8.0/aa18d77211a1306f5b92ccf33dba2c9d03ad9dd9/realm-android-library-5.8.0-sources.jar!/" />
     </SOURCES>

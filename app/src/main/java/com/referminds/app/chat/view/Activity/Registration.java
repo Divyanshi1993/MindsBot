@@ -1,5 +1,6 @@
 package com.referminds.app.chat.view.Activity;
 
+import android.arch.lifecycle.Observer;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,17 +23,21 @@ public class Registration extends AppCompatActivity implements RegistrationNavig
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        utility = new Utility();
+        commonSessionCallbck = new CommonSessionCall(this);
         binding = DataBindingUtil.setContentView(this, R.layout.registration);
+
         RegistrationViewModel viewModel = new RegistrationViewModel();
         binding.setRegViewModel(viewModel);
         viewModel.setNavigator(this);
-
-        utility = new Utility();
-        commonSessionCallbck = new CommonSessionCall(this);
+        viewModel.getUserValidation().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                attemptSignUp(user);
+            }
+        });
 
     }
-
-
 
     @Override
     public void onPasswordMismatched() {
@@ -58,7 +63,7 @@ public class Registration extends AppCompatActivity implements RegistrationNavig
     @Override
     public void attemptSignUp(User user) {
         utility.signinbuttonState(binding.signUpButton, false, getColor(R.color.button_disable));
-        commonSessionCallbck.SignUP(user);
+        commonSessionCallbck.SignUP(user,this);
     }
 
     @Override

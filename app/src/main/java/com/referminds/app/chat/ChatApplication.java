@@ -14,7 +14,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+import static com.referminds.app.chat.BuildConfig.BASE_URL;
 public class ChatApplication extends Application {
 
     private Socket mSocket;
@@ -24,7 +24,7 @@ public class ChatApplication extends Application {
 
     {
         try {
-            mSocket = IO.socket(Constants.CHAT_SERVER_URL);
+            mSocket = IO.socket(BASE_URL);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -63,10 +63,10 @@ public class ChatApplication extends Application {
         return mSocket;
     }
 
-    public static Retrofit getClient(String baseUrl) {
+    public static Retrofit getClient() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

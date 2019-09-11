@@ -1,7 +1,6 @@
 package com.referminds.app.chat.view.Adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,12 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.referminds.app.chat.R;
-import com.referminds.app.chat.data.Model.User;
 import com.referminds.app.chat.view.Activity.MainActivity;
-import com.referminds.app.chat.view.Fragment.ChatrRoomFragment;
+import com.referminds.app.chat.view.Fragment.ChatRoomFragment;
 import com.referminds.app.chat.view.Utils.Utility;
 
-import java.util.List;
 import java.util.Map;
 
 public class UserlistAdapter extends RecyclerView.Adapter<UserlistAdapter.ViewHolder> {
@@ -55,7 +52,7 @@ public class UserlistAdapter extends RecyclerView.Adapter<UserlistAdapter.ViewHo
                 FragmentManager fragmentManager = ((MainActivity)context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                Fragment fragment = ChatrRoomFragment.newInstance(username);
+                Fragment fragment = ChatRoomFragment.newInstance(username);
                 fragmentTransaction.replace(R.id.myframe, fragment,context.getString(R.string.chatroom));
                 fragmentTransaction.commit();
                 utility.dissmissDialog();

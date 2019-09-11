@@ -12,6 +12,8 @@ android {
         versionCode 1
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "BASE_URL", '"https://nodejs-chatbot-backend.herokuapp.com/"'
+
     }
     dataBinding {
         enabled = true
